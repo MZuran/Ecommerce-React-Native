@@ -24,8 +24,58 @@ export const shopApi = createApi({
             transformResponse: (response) => Object.entries(response || {}).map(([id, data]) => ({ id, ...data })),
         }),
 
+        getCardById: builder.query({
+            query: (id) => `cards/${id}.json`,
+            transformResponse: (response, meta, id) =>
+                response ? { id, ...response } : null,
+        }),
+
+        updateCardStock: builder.mutation({
+            query: ({ cardId, stock }) => ({
+                url: `cards/${cardId}.json`,
+                method: 'PATCH',
+                body: { stock },
+            }),
+        }),
+
+        postOrder: builder.mutation({
+            query: (newOrder) => ({
+                url: 'orders.json',
+                method: 'POST',
+                body: newOrder,
+            }),
+        }),
+
+        updateOrder: builder.mutation({
+            query: ({ id, updateData }) => ({
+                url: `orders/${id}.json`,
+                method: 'PUT',
+                body: updateData,
+            }),
+        }),
+
+        deleteOrder: builder.mutation({
+            query: (id) => ({
+                url: `orders/${id}.json`,
+                method: 'DELETE',
+            }),
+        }),
+
 
     }),
 })
 
-export const { useGetAllCardsQuery, useGetCardsByArchetypeQuery } = shopApi
+export const {
+
+    useGetAllCardsQuery,
+    useGetCardsByArchetypeQuery,
+    useGetCardByIdQuery,
+
+    useUpdateCardStockMutation,
+
+    usePostOrderMutation,
+    useUpdateOrderMutation,
+    useDeleteOrderMutation,
+    
+} = shopApi
+
