@@ -1,18 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from './slices/counterSlice';
 import { shopApi } from "../services/shopService";
+
+import counterReducer from './slices/counterSlice';
+import cartReducer from './slices/cartSlice';
 
 export const store = configureStore({
     reducer: {
         counter: counterReducer,
+        cart: cartReducer,
         [shopApi.reducerPath]: shopApi.reducer,
     },
     middleware: (getDefaultMiddleware) => [
         ...getDefaultMiddleware(),
-        shopApi.middleware,  // ensure this is included as a middleware
+        shopApi.middleware,
     ],
 });
-
 
 /*
     Para usar el estado global importamos useSelector y useDispatch

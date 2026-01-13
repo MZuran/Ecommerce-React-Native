@@ -5,6 +5,7 @@ import { Text, StyleSheet, View } from 'react-native'
 
 import ProductsStack from "../ProductsStack";
 import ProfileStack from "../ProfileStack";
+import CartStack from "../CartStack";
 
 import returnTabScreenOptions from "./TabScreenOptions";
 
@@ -28,7 +29,7 @@ export default function TabNavigator() {
 
             <Tab.Screen
                 name={"Cart"}
-                component={ProductsStack}
+                component={CartStack}
                 options={returnTabScreenOptions("shopping-cart")}
             />
 

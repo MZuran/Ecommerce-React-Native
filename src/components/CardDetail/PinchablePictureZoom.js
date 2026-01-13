@@ -17,12 +17,14 @@ export default function PinchablePicture({ url }) {
     });
 
     return (
-            <GestureDetector gesture={tapGesture}>
-                <Image
-                    source={{ uri: url }}
-                    style={styles.picture}
-                />
-            </GestureDetector>
+        <>
+            {/* <GestureDetector gesture={tapGesture}> */}
+            <Image
+                source={{ uri: url }}
+                style={styles.picture}
+            />
+            {/* </GestureDetector> */}
+        </>
     )
 }
 

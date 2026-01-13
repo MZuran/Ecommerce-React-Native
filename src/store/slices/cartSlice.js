@@ -1,47 +1,52 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    items: {},      // { [cardId]: { id, name, price, qty } }
+    items: [], // [{ id, name, price, qty }]
     totalQty: 0,
     totalPrice: 0,
 };
 
 const cartSlice = createSlice({
-    name: 'cart',
+    name: "cart",
     initialState,
     reducers: {
-
         addToCart: (state, action) => {
             const { id, name, price, qty = 1 } = action.payload;
 
-            if (state.items[id]) {
-                state.items[id].qty += qty;
+            const existingItem = state.items.find(item => item.id === id);
+
+            if (existingItem) {
+                existingItem.qty += qty;
             } else {
-                state.items[id] = { id, name, price, qty };
+                state.items.push({ id, name, price, qty });
             }
 
             state.totalQty += qty;
             state.totalPrice += price * qty;
         },
 
-        // dispatch(addToCart({ id: card.id, name: card.name, price: card.price })  -  Adds one
-        // dispatch(addToCart({ id: card.id, name: card.name, price: card.price, qty: 10 })
+        // dispatch(addToCart({ id, name, price }))
+        // dispatch(addToCart({ id, name, price, qty: 10 }))
 
         removeFromCart: (state, action) => {
             const id = action.payload;
-            const item = state.items[id];
+            const index = state.items.findIndex(item => item.id === id);
 
-            if (!item) return;
+            if (index === -1) return;
+
+            const item = state.items[index];
 
             state.totalQty -= item.qty;
             state.totalPrice -= item.price * item.qty;
-            delete state.items[id];
+
+            state.items.splice(index, 1);
         },
-        // dispatch(removeFromCart( card.id ));
+
+        // dispatch(removeFromCart(id))
 
         incrementQty: (state, action) => {
             const id = action.payload;
-            const item = state.items[id];
+            const item = state.items.find(item => item.id === id);
 
             if (!item) return;
 
@@ -49,30 +54,38 @@ const cartSlice = createSlice({
             state.totalQty += 1;
             state.totalPrice += item.price;
         },
-        // dispatch(incrementQty( card.id ));
+
+        // dispatch(incrementQty(id))
 
         decrementQty: (state, action) => {
             const id = action.payload;
-            const item = state.items[id];
+            const index = state.items.findIndex(item => item.id === id);
 
-            if (!item) return;
+            if (index === -1) return;
+
+            const item = state.items[index];
 
             item.qty -= 1;
             state.totalQty -= 1;
             state.totalPrice -= item.price;
 
             if (item.qty === 0) {
-                delete state.items[id];
+                state.items.splice(index, 1);
             }
         },
 
-        // dispatch(decrementQty( card.id ));
+        // dispatch(decrementQty(id))
 
-        clearCart: () => { return initialState }
-        // dispatch(clearCart())
+        clearCart: () => initialState,
     },
 });
 
-export const { addToCart, removeFromCart, incrementQty, decrementQty, clearCart, } = cartSlice.actions;
+export const {
+    addToCart,
+    removeFromCart,
+    incrementQty,
+    decrementQty,
+    clearCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

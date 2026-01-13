@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native'
 import { colors } from '../../globals/colors'
 
-export default function AddToCart({ cardData, onAdd }) {
+import { useCartActions } from '../../hooks/useCartActions'
+
+export default function AddToCart({ cardData }) {
+
+    const { handleAddToCart } = useCartActions() 
+
     const stock = cardData?.stock ?? 0
     const [quantity, setQuantity] = useState(1)
     const total = (cardData.price * quantity).toFixed(2)
@@ -15,11 +20,6 @@ export default function AddToCart({ cardData, onAdd }) {
         if (num > stock) num = stock
 
         setQuantity(num)
-    }
-
-    const handleAdd = () => {
-        if (stock === 0) return
-        onAdd?.(cardData, quantity)
     }
 
     return (
@@ -37,7 +37,7 @@ export default function AddToCart({ cardData, onAdd }) {
                     onChangeText={onQuantityChange}
                 />
 
-                <Pressable onPress={handleAdd} style={{width: "50%"}}>
+                <Pressable onPress={() => {handleAddToCart(cardData, quantity)}} style={{width: "50%"}}>
                     <Text style={styles.cartButton}>Add to cart</Text>
                 </Pressable>
             </View>
@@ -48,6 +48,7 @@ export default function AddToCart({ cardData, onAdd }) {
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     row: {
