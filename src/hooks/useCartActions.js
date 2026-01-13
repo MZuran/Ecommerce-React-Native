@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { addToCart, clearCart } from "../store/slices/cartSlice";
+import { addToCart, clearCart, removeFromCart, incrementQty, decrementQty } from "../store/slices/cartSlice";
 
 export function useCartActions() {
     const dispatch = useDispatch();
@@ -16,5 +16,9 @@ export function useCartActions() {
         dispatch( clearCart() )
     }
 
-    return { handleAddToCart, handleClearCart };
+    const handleRemoveFromCart = (cardId) => {
+        dispatch( removeFromCart(cardId) )
+    }
+
+    return { handleAddToCart, handleClearCart, handleRemoveFromCart };
 }
