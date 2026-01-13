@@ -36,11 +36,11 @@ export default function CardDetailScreen({ route, navigation }) {
                         {cardData.level > 0 && `Level ${cardData.level} `}
                         {cardData.linkval && `Link ${cardData.linkval} - `}
                         {cardData.attribute && `${cardData.attribute} `}
-                        {cardData.race && cardData.atk && `${cardData.race} `}
+                        {cardData.race && cardData.atk !== null && cardData.atk !== undefined && `${cardData.race} `}
                         {cardData.humanReadableCardType}
                     </Text>
                     {cardData.archetype && <Text style={styles.textThin}>Archetype: <Text style={styles.textBold} >{cardData.archetype}</Text></Text> }
-                    {cardData.atk && <Text style={styles.type}>{cardData.atk} ATK {cardData.def && `${cardData.def} DEF`}</Text>}
+                    {cardData.atk !== null && cardData.atk !== undefined && <Text style={styles.type}>{cardData.atk} ATK {cardData.def !== null && cardData.def !== undefined && `${cardData.def} DEF`}</Text>}
                     {cardData.linkmarkers && <Text style={styles.type}>Link Arrows: {cardData.linkmarkers.join(' ')}</Text>}
                 </View>
 

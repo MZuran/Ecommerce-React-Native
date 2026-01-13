@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Image, Dimensions } from 'react-native'
+import { StyleSheet, View, Image, Dimensions, Pressable } from 'react-native'
 
 const widthDevice = Dimensions.get("window").width
 
-export default function CardPicture({ url, style = styles.container }) {
+export default function CardPicture({ url, style = styles.container}) {
     const [loading, setLoading] = useState(true)
 
     return (
