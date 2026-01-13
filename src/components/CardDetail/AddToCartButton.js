@@ -22,6 +22,11 @@ export default function AddToCart({ cardData }) {
         setQuantity(num)
     }
 
+    const onAddToCartPress = (cardData, quantity) => {
+        alert(`Added ${quantity} card${quantity > 1 ? "s" : ""} to the cart.`)
+        handleAddToCart(cardData, quantity)
+    }
+
     return (
         <View style={styles.container}>
             <Text style={styles.stockText}>
@@ -37,7 +42,7 @@ export default function AddToCart({ cardData }) {
                     onChangeText={onQuantityChange}
                 />
 
-                <Pressable onPress={() => {handleAddToCart(cardData, quantity)}} style={{width: "50%"}}>
+                <Pressable onPress={() => { onAddToCartPress(cardData, quantity) }} style={{width: "50%"}}>
                     <Text style={styles.cartButton}>Add to cart</Text>
                 </Pressable>
             </View>

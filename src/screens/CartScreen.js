@@ -4,15 +4,23 @@ import { Text, StyleSheet, View } from 'react-native'
 import { colors } from '../globals/colors'
 import { useSelector } from 'react-redux'
 
+import CustomButton from '../components/Button'
+import { useCartActions } from '../hooks/useCartActions'
+
 export default function CartScreen() {
 
   const cart = useSelector(state => state.cart)
+  const { handleClearCart } = useCartActions()
 
   return (
     <View style={styles.screen} >
       <Text>Cart Screen</Text>
       <Text>Items in cart: {cart.totalQty}</Text>
       <Text>Total price in cart: {cart.totalPrice}</Text>
+
+      <CustomButton onPress={ handleClearCart } >Clear Cart</CustomButton>
+      <CustomButton onPress={ () => { console.log(cart) } } >Show Cart</CustomButton>
+
     </View>
   )
 }

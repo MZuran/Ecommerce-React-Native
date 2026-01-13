@@ -12,8 +12,8 @@ export default function CardBrowserContainer() {
   return (
     <FlatList
       data={data}
-      keyExtractor={(item) => item.id}  // unique key for each card
-      numColumns={2}  // number of cards per row
+      keyExtractor={(item) => item.id} 
+      numColumns={2}                    
       renderItem={({ item }) => <CardButton cardData={item} />}
       contentContainerStyle={styles.browser}
     />

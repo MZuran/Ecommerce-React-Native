@@ -77,6 +77,7 @@ const cartSlice = createSlice({
         // dispatch(decrementQty(id))
 
         clearCart: () => initialState,
+        // dispatch(clearCart())
     },
 });
 

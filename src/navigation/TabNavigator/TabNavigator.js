@@ -9,9 +9,16 @@ import CartStack from "../CartStack";
 
 import returnTabScreenOptions from "./TabScreenOptions";
 
+import { colors } from "../../globals/colors";
+
+import { useSelector } from "react-redux";
+
 const Tab = createBottomTabNavigator()
 
 export default function TabNavigator() {
+
+    const cartItemsNumber = useSelector(state => state.cart.totalQty)
+
     return (
         <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: styles.tabBar, animation: "shift" }} >
 
@@ -30,7 +37,7 @@ export default function TabNavigator() {
             <Tab.Screen
                 name={"Cart"}
                 component={CartStack}
-                options={returnTabScreenOptions("shopping-cart")}
+                options={{...returnTabScreenOptions("shopping-cart"), tabBarBadge: (cartItemsNumber ? cartItemsNumber : null), tabBarBadgeStyle: styles.tabBarBadge }}
             />
 
             <Tab.Screen
@@ -47,5 +54,11 @@ const styles = StyleSheet.create({
     tabBar: {
         height: 70,
         elevation: 0,
+    },
+
+    tabBarBadge: {
+        //color: colors.color_5,
+        //backgroundColor: colors.color_2,
+        fontWeight: 900
     }
 })

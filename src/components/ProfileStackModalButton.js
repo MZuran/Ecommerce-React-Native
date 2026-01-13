@@ -27,7 +27,7 @@ export default function ProfileStackModalButton() {
 
                     <View style={styles.footer}>
                         
-                        <Pressable onPress={() => { setVisible(false); navigation.navigate('Profile') }} style={styles.pressableContainer} >
+                        <Pressable onPress={() => { setVisible(false); navigation.navigate('ProfileStack') }} style={styles.pressableContainer} >
                             <CustomButtonIcon iconName="user" />
                             <Text style={styles.openButtonText} >Profile</Text>
                         </Pressable>
