@@ -20,14 +20,14 @@ export default function CartScreen() {
       <Text>Items in cart: {cart.totalQty}</Text>
       <Text>Total price in cart: {cart.totalPrice}</Text>
 
+      <FlatList
+        data={cart.items}
+        renderItem={(item) => <CartItem itemData={item} />}
+        keyExtractor={(item) => item.id}
+      />
+
       <CustomButton onPress={handleClearCart} >Clear Cart</CustomButton>
       <CustomButton onPress={() => { console.log(cart) }} >Show Cart</CustomButton>
-
-        <FlatList
-          data={cart.items}
-          renderItem={(item) => <CartItem itemData={item} />}
-          keyExtractor={(item) => item.id}
-        />
 
     </View>
   )

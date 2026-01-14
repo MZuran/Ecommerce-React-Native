@@ -56,6 +56,7 @@ export default function CartItem({ itemData }) {
           <Text style={styles.iconText}>
             <FontAwesome5 onPress={ () => { handleRemoveFromCart(itemData.item.id) } } name={"trash"} size={30} />
           </Text>
+          <Text onPress={ () => { console.log(itemData.item.qty, data.stock) } } >Testadsasd</Text>
         </View>
       </View>
 

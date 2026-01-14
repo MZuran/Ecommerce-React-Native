@@ -1,4 +1,4 @@
-    import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     items: [], // [{ id, name, price, qty }]
@@ -10,23 +10,37 @@ const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
+
         addToCart: (state, action) => {
-            const { id, name, price, qty = 1 } = action.payload;
+            const { id, name, price, qty = 1, maxStock } = action.payload;
 
             const existingItem = state.items.find(item => item.id === id);
+            let copyAmount = qty
 
-            if (existingItem) {
-                existingItem.qty += qty;
-            } else {
-                state.items.push({ id, name, price, qty });
+            if (existingItem && existingItem.qty + copyAmount > maxStock) {
+                copyAmount = maxStock - existingItem.qty
             }
 
-            state.totalQty += qty;
-            state.totalPrice += price * qty;
+            if (!existingItem && copyAmount > maxStock) {
+                copyAmount = maxStock
+            }
+
+            if (existingItem) {
+
+                existingItem.qty += copyAmount;
+
+            } else {
+
+                state.items.push({ id, name, price, qty: copyAmount });
+
+            }
+
+            state.totalQty += copyAmount;
+            state.totalPrice += price * copyAmount;
         },
 
-        // dispatch(addToCart({ id, name, price }))
-        // dispatch(addToCart({ id, name, price, qty: 10 }))
+        // dispatch(addToCart({ id, name, price, maxStock }))
+        // dispatch(addToCart({ id, name, price, qty: 10, maxStock }))
 
         removeFromCart: (state, action) => {
             const id = action.payload;
