@@ -6,7 +6,7 @@ import { useCartActions } from '../../hooks/useCartActions'
 
 export default function AddToCart({ cardData }) {
 
-    const { handleAddToCart } = useCartActions() 
+    const { handleAddToCart } = useCartActions()
 
     const stock = cardData?.stock ?? 0
     const [quantity, setQuantity] = useState(1)
@@ -30,22 +30,25 @@ export default function AddToCart({ cardData }) {
     return (
         <View style={styles.container}>
             <Text style={styles.stockText}>
-                Stock: {stock} - Total: { total }
+                Stock: {stock} {stock > 0 && `- Total: ${total}`}
             </Text>
 
-            <View style={styles.row}>
-                <TextInput
-                    style={[styles.input, stock === 0 && styles.disabledInput]}
-                    keyboardType="numeric"
-                    value={String(quantity)}
-                    editable={stock > 0}
-                    onChangeText={onQuantityChange}
-                />
+            {
+                stock > 0 &&
+                <View style={styles.row}>
+                    <TextInput
+                        style={[styles.input, stock === 0 && styles.disabledInput]}
+                        keyboardType="numeric"
+                        value={String(quantity)}
+                        editable={stock > 0}
+                        onChangeText={onQuantityChange}
+                    />
 
-                <Pressable onPress={() => { onAddToCartPress(cardData, quantity) }} style={{width: "50%"}}>
-                    <Text style={styles.cartButton}>Add to cart</Text>
-                </Pressable>
-            </View>
+                    <Pressable onPress={() => { onAddToCartPress(cardData, quantity) }} style={{ width: "50%" }}>
+                        <Text style={styles.cartButton}>Add to cart</Text>
+                    </Pressable>
+                </View>
+            }
 
             {stock === 0 && (
                 <Text style={styles.outOfStock}>Out of stock</Text>

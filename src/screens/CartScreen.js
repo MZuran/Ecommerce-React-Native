@@ -1,13 +1,14 @@
 import React from 'react'
 import { Text, StyleSheet, View, FlatList } from 'react-native'
 
-import { colors } from '../globals/colors'
 import { useSelector } from 'react-redux'
-
-import CustomButton from '../components/Button'
 import { useCartActions } from '../hooks/useCartActions'
 
+import CustomButton from '../components/Button'
+import ConfirmPurchaseButton from '../components/CartScreen/ConfirmPurchaseButton'
 import CartItem from '../components/CartScreen/CartItem'
+import { colors } from '../globals/colors'
+
 
 export default function CartScreen() {
 
@@ -16,18 +17,32 @@ export default function CartScreen() {
 
   return (
     <View style={styles.screen} >
-      <Text>Cart Screen</Text>
-      <Text>Items in cart: {cart.totalQty}</Text>
-      <Text>Total price in cart: {cart.totalPrice}</Text>
 
-      <FlatList
-        data={cart.items}
-        renderItem={(item) => <CartItem itemData={item} />}
-        keyExtractor={(item) => item.id}
-      />
+      {
+        cart.items.length > 0 &&
+        <View style={styles.cartContinar}>
 
-      <CustomButton onPress={handleClearCart} >Clear Cart</CustomButton>
-      <CustomButton onPress={() => { console.log(cart) }} >Show Cart</CustomButton>
+          <FlatList
+            data={cart.items}
+            renderItem={(item) => <CartItem itemData={item} />}
+            keyExtractor={(item) => item.id}
+          />
+
+          <View style={styles.purchaseInfoContainer}>
+            <Text style={styles.text} onPress={()=>{console.log(cart)}}>${cart.totalPrice}</Text>
+            <ConfirmPurchaseButton cart={cart} clearCartFunction={handleClearCart}/>
+            <CustomButton onPress={handleClearCart} >Clear Cart</CustomButton>
+          </View>
+
+        </View>
+      }
+
+      {
+        cart.items.length == 0 &&
+        <View>
+          <Text style={styles.text} >There are no items in the shopping cart!</Text>
+        </View>
+      }
 
     </View>
   )
@@ -39,5 +54,25 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+
+  text: {
+    color: colors.text,
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+
+  cartContinar: {
+    justifyContent: "center"
+  },
+
+  flatListContainer: {
+    
+  },
+
+  purchaseInfoContainer: {
+    marginTop: 10,
+    marginBottom: 10
   }
 })

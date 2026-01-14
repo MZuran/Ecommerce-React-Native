@@ -5,18 +5,27 @@ import CustomButtonIcon from '../components/IconButton'
 import AddToCart from '../components/CardDetail/AddToCartButton'
 import CardDetailPicture from '../components/CardDetail/CardDetailPicture'
 
+import { useGetCardByIdQuery } from '../services/shopService'
+
 import { colors } from '../globals/colors'
 
 export default function CardDetailScreen({ route, navigation }) {
 
     const { cardData } = route.params
+    const { data, error, isLoading } = useGetCardByIdQuery(cardData.id)
 
-    const backPressHandler = () => {
-        navigation.goBack()
-    }
+    const backPressHandler = () => { navigation.goBack() }
 
     if (cardData.atk && cardData.atk == -1) { cardData.atk = "?" }
     if (cardData.def && cardData.def == -1) { cardData.def = "?" }
+
+    if (isLoading) {
+        return <Text>Loading...</Text>
+    }
+
+    if (error) {
+        return <Text onPress={() => { console.log(itemData) }} >Error loading card</Text>
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.screen} >
@@ -27,7 +36,7 @@ export default function CardDetailScreen({ route, navigation }) {
                     <Text style={styles.textBig} >Go back</Text>
                 </View>
 
-                <CardDetailPicture cardData={cardData}/>
+                <CardDetailPicture cardData={cardData} />
 
                 <View style={styles.textContainer}>
                     <Text style={styles.title} >{cardData.name}</Text>
@@ -39,12 +48,12 @@ export default function CardDetailScreen({ route, navigation }) {
                         {cardData.race && cardData.atk !== null && cardData.atk !== undefined && `${cardData.race} `}
                         {cardData.humanReadableCardType}
                     </Text>
-                    {cardData.archetype && <Text style={styles.textThin}>Archetype: <Text style={styles.textBold} >{cardData.archetype}</Text></Text> }
+                    {cardData.archetype && <Text style={styles.textThin}>Archetype: <Text style={styles.textBold} >{cardData.archetype}</Text></Text>}
                     {cardData.atk !== null && cardData.atk !== undefined && <Text style={styles.type}>{cardData.atk} ATK {cardData.def !== null && cardData.def !== undefined && `${cardData.def} DEF`}</Text>}
                     {cardData.linkmarkers && <Text style={styles.type}>Link Arrows: {cardData.linkmarkers.join(' ')}</Text>}
                 </View>
 
-                <AddToCart cardData={cardData}/>
+                <AddToCart cardData={data} />
 
             </View>
         </ScrollView>

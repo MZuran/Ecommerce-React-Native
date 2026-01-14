@@ -38,6 +38,14 @@ export const shopApi = createApi({
             }),
         }),
 
+        updateCardStockByAmount: builder.mutation({
+            query: ({ cardId, delta }) => ({
+                url: `cards/${cardId}/stock.json`,
+                method: 'PUT',
+                body: { ".sv": { increment: -delta, }, },
+            }),
+        }),
+
         postOrder: builder.mutation({
             query: (newOrder) => ({
                 url: 'orders.json',
@@ -72,10 +80,11 @@ export const {
     useGetCardByIdQuery,
 
     useUpdateCardStockMutation,
+    useUpdateCardStockByAmountMutation,
 
     usePostOrderMutation,
     useUpdateOrderMutation,
     useDeleteOrderMutation,
-    
+
 } = shopApi
 
