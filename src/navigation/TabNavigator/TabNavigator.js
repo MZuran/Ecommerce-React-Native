@@ -18,6 +18,7 @@ const Tab = createBottomTabNavigator()
 export default function TabNavigator() {
 
     const cartItemsNumber = useSelector(state => state.cart.totalQty)
+    const user = useSelector(state => state.auth.value.email)
 
     return (
         <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: styles.tabBar, animation: "shift" }} >
@@ -27,7 +28,7 @@ export default function TabNavigator() {
                 component={ProductsStack}
                 options={returnTabScreenOptions("th")}
             />
-            
+
             <Tab.Screen
                 name={"Search"}
                 component={ProductsStack}
@@ -37,13 +38,16 @@ export default function TabNavigator() {
             <Tab.Screen
                 name={"Cart"}
                 component={CartStack}
-                options={{...returnTabScreenOptions("shopping-cart"), tabBarBadge: (cartItemsNumber ? cartItemsNumber : null), tabBarBadgeStyle: styles.tabBarBadge }}
+                options={{ ...returnTabScreenOptions("shopping-cart"), tabBarBadge: (cartItemsNumber ? cartItemsNumber : null), tabBarBadgeStyle: styles.tabBarBadge }}
             />
 
             <Tab.Screen
-                name={"Profile"}
+                name={"User"}
                 component={ProfileStack}
-                options={returnTabScreenOptions("user")}
+                options={{
+                    ...(user ? returnTabScreenOptions("user") : returnTabScreenOptions("user-secret")),
+                    tabBarLabel: (user ? "My Account" : "Log In")
+                }}
             />
 
         </Tab.Navigator>

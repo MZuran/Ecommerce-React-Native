@@ -3,7 +3,7 @@ import { Text, StyleSheet, View } from 'react-native'
 
 import { colors } from '../globals/colors'
 
-import ProfileStackModalButton from '../components/ProfileStackModalButton'
+import ProfileStackModalButton from '../components/ProfileScreen/ProfileStackModalButton'
 
 export default function SettingsScreen() {
   return (

@@ -3,9 +3,12 @@ import { Alert } from 'react-native'
 import CustomButton from '../Button'
 
 import { useUpdateCardStockByAmountMutation } from '../../services/shopService'
+import { useSelector } from 'react-redux'
 
-export default function ConfirmPurchaseButton({ cart, clearCartFunction = () => {} }) {
+export default function ConfirmPurchaseButton({ cart, clearCartFunction = () => { } }) {
+
     const [updateStockByDelta] = useUpdateCardStockByAmountMutation();
+    const user = useSelector(state => state.auth.value.email)
 
     const pressHandler = async () => {
 
@@ -30,7 +33,12 @@ export default function ConfirmPurchaseButton({ cart, clearCartFunction = () => 
 
     return (
         <>
-            <CustomButton onPress={pressHandler}> Confirm Purchase </CustomButton>
+            {
+                user ?
+                    <CustomButton onPress={pressHandler}> Confirm Purchase </CustomButton>
+                    :
+                    <CustomButton buttonType={"faded"}> Confirm Purchase </CustomButton>
+            }
         </>
     );
 }

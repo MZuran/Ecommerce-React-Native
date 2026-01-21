@@ -5,14 +5,32 @@ import { Text, StyleSheet, View } from 'react-native'
 
 import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
 
 const Stack = createNativeStackNavigator()
 
+import { useSelector } from "react-redux";
+
 export default function ProfileStack() {
+
+    const user = useSelector(state => state.auth.value.email)
+
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }} >
-            <Stack.Screen name={"ProfileStack"} component={ProfileScreen} />
-            <Stack.Screen name={"Settings"} component={SettingsScreen} />
+            {
+                !user ?
+                    <>
+                        <Stack.Screen name={"LoginScreen"} component={LoginScreen} />
+                        <Stack.Screen name={"RegisterScreen"} component={RegisterScreen} />
+                    </>
+                    :
+                    <>
+                        <Stack.Screen name={"Settings"} component={SettingsScreen} />
+                        <Stack.Screen name={"ProfileStack"} component={ProfileScreen} />
+                    </>
+            }
+
         </Stack.Navigator>
     )
 }

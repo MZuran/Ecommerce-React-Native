@@ -12,7 +12,10 @@ const palette = {
     secondary_color_5: "#2E5266",
 
     darker_color_1: "#36454F",
-    darker_color_2: "#28282B"
+    darker_color_2: "#28282B",
+
+    danger: "#f66",
+    white: "#fff"
 }
 
 export const colors = {

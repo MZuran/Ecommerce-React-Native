@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Text, StyleSheet, View, Modal, Pressable } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import CustomButtonIcon from './IconButton'
-import { colors } from '../globals/colors'
-import { applyTransparency } from '../utils/hexToRgba'
+import CustomButtonIcon from '../IconButton'
+import { colors } from '../../globals/colors'
+import { applyTransparency } from '../../utils/hexToRgba'
 
 export default function ProfileStackModalButton() {
     const navigation = useNavigation()
