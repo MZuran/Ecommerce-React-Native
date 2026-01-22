@@ -8,14 +8,15 @@ import { store } from "./store/store";
 import TabNavigator from "./navigation/TabNavigator/TabNavigator";
 
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
+import { SQLiteProvider } from "expo-sqlite";
+import { initializeDB } from "./SQLite/tableCreationFunctions";
 import { Provider } from "react-redux";
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <Provider store={store}>
+    <SQLiteProvider databaseName="ecommerce-yugioh" onInit={initializeDB}>
 
+      <Provider store={store}>
         <SafeAreaProvider>
 
           {/* Status Bar */}
@@ -33,6 +34,6 @@ export default function App() {
         </SafeAreaProvider>
 
       </Provider>
-    </GestureHandlerRootView>
+    </SQLiteProvider>
   );
 }

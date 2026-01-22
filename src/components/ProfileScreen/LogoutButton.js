@@ -8,15 +8,24 @@ import { useSelector } from 'react-redux'
 import { resetUser } from '../../store/slices/authSlice'
 import { useDispatch } from 'react-redux'
 
+import { useSQLiteContext } from 'expo-sqlite'
+
 export default function LogoutButton() {
 
     const navigation = useNavigation()
     const user = useSelector(state => state.auth.value.email)
+    const localId = useSelector(state => state.auth.value.localId)
     const dispatch = useDispatch()
+    const db = useSQLiteContext()
 
-    const onSubmit = () => {
-        dispatch(resetUser())
-        navigation.navigate('Products', { screen: 'Home' })
+    const onSubmit = async () => {
+        try {
+            const result = await db.runAsync(`DELETE FROM sessions WHERE localId=$localId`, { $localId: localId })
+            dispatch(resetUser())
+            navigation.navigate('Products', { screen: 'Home' })
+        } catch (error) {
+            console.error("Error de logout", error)
+        }
     }
 
     return (

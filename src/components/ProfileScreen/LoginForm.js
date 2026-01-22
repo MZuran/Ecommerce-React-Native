@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, StyleSheet, View, TextInput } from 'react-native'
+import Checkbox from 'expo-checkbox'
 
 import { colors } from '../../globals/colors'
 import CustomButton from '../Button'
@@ -9,31 +10,51 @@ import { useNavigation } from '@react-navigation/native'
 
 import { setUser } from '../../store/slices/authSlice'
 import { useDispatch } from 'react-redux'
+import { useSQLiteContext } from 'expo-sqlite'
 
 export default function LoginForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [triggerLogin, result] = useLoginMutation()
+    const [saveSession, setSaveSession] = useState(false)
 
     const navigation = useNavigation()
     const dispatch = useDispatch()
+    const db = useSQLiteContext()
 
     const onSubmit = () => {
         triggerLogin({ email, password })
     }
 
+    const saveUserInLocalDatabase = async (email, localId) => {
+        try {
+            const result = await db.runAsync(`INSERT INTO SESSIONS (email, localId) VALUES (?,?)`, email, localId)
+        } catch (error) {
+            console.error("Error tratando de guardar al usuario en la base de datos", error)
+        }
+    }
+
     useEffect(
         () => {
-            if (result.status === "fulfilled") {
+            async function createSession() {
+                if (result.status === "fulfilled") {
 
-                dispatch(setUser(result.data))
-                navigation.navigate('Products', { screen: 'Home' })
+                    dispatch(setUser(result.data))
 
-            } else if (result.status === "rejected") {
+                    if (saveSession) {
+                        await saveUserInLocalDatabase(result.data.email, result.data.localId)
+                    }
 
-                alert("Login request rejected")
-                
+                    navigation.navigate('Products', { screen: 'Home' })
+
+                } else if (result.status === "rejected") {
+
+                    alert("Login request rejected")
+
+                }
             }
+
+            createSession()
         },
         [result]
     )
@@ -56,6 +77,16 @@ export default function LoginForm() {
                 placeholder="Enter password"
                 secureTextEntry
             />
+
+            <View style={styles.checkboxContainer} >
+                <Checkbox
+                    value={saveSession}
+                    onValueChange={setSaveSession}
+                    style={styles.checkBox}
+                    color={saveSession ? colors.color_3 : undefined}
+                />
+                <Text style={styles.label} >Keep session active?</Text>
+            </View>
 
             <CustomButton onPress={onSubmit} >Log In</CustomButton>
         </View>
@@ -85,6 +116,23 @@ const styles = StyleSheet.create({
 
     label: {
         marginLeft: 5,
+    },
+
+    checkboxContainer: {
+        flexDirection: "row",
+        marginVertical: 10,
+        padding: 5,
+        justifyContent: "center"
+    },
+
+    checkBox: {
+        borderRadius: 5,
+        marginRight: 0,
+
+        borderRadius: 5,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: colors.color_2,
     }
 })
 
