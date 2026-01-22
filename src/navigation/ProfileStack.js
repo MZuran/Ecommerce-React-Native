@@ -26,8 +26,8 @@ export default function ProfileStack() {
                     </>
                     :
                     <>
-                        <Stack.Screen name={"Settings"} component={SettingsScreen} />
                         <Stack.Screen name={"ProfileStack"} component={ProfileScreen} />
+                        <Stack.Screen name={"Settings"} component={SettingsScreen} />
                     </>
             }
 

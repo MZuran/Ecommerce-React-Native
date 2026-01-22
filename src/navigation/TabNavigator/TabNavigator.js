@@ -2,16 +2,20 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import React from 'react'
 import { Text, StyleSheet, View } from 'react-native'
+import { useEffect } from "react";
 
 import ProductsStack from "../ProductsStack";
 import ProfileStack from "../ProfileStack";
 import CartStack from "../CartStack";
 
 import returnTabScreenOptions from "./TabScreenOptions";
-
 import { colors } from "../../globals/colors";
 
 import { useSelector } from "react-redux";
+import { useGetProfilePictureQuery } from "../../services/userService";
+
+import { useDispatch } from "react-redux";
+import { setProfilePicture } from "../../store/slices/userSlice";
 
 const Tab = createBottomTabNavigator()
 
@@ -19,6 +23,20 @@ export default function TabNavigator() {
 
     const cartItemsNumber = useSelector(state => state.cart.totalQty)
     const user = useSelector(state => state.auth.value.email)
+    const localId = useSelector(state => state.auth.value.localId)
+
+    const { data: profilePicture, isLoading, error } = useGetProfilePictureQuery(localId)
+
+    const dispatch = useDispatch()
+
+    useEffect(
+        () => {
+            if (profilePicture) {
+                dispatch(setProfilePicture(profilePicture.image))
+            }
+        },
+        [profilePicture]
+    )
 
     return (
         <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: styles.tabBar, animation: "shift" }} >
