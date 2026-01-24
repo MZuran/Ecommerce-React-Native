@@ -21,7 +21,7 @@ export default function CardButton({ cardData }) {
     return (
         <Pressable style={styles.container} onPress={pressHandler}>
             <Text style={styles.cardName} >{cardData.name}</Text>
-            <CardPicture url={cardData.card_images[0].image_url_small} style={styles.cardPicture} />
+            <CardPicture url={cardData.image_url_small} style={styles.cardPicture} />
             <Text style={styles.cardPrice} >{cardData.price}$</Text>
         </Pressable>
     )

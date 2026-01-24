@@ -18,7 +18,7 @@ export default function CardDetailPicture({ cardData }) {
         <View>
             <Pressable onPress={() => setModalVisible(true)}>
                 <Image
-                    source={{ uri: cardData.card_images[0].image_url_cropped }}
+                    source={{ uri: cardData.image_url_cropped }}
                     style={styles.cardPicture}
                 />
             </Pressable>
@@ -35,7 +35,7 @@ export default function CardDetailPicture({ cardData }) {
                         onPress={() => setModalVisible(false)}
                     />
 
-                    <PinchablePicture url={cardData.card_images[0].image_url} />
+                    <PinchablePicture url={cardData.image_url} />
                 </View>
             </Modal>
         </View>

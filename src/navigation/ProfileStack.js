@@ -7,6 +7,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import DataDownloadScreen from "../screens/DataDownloadScreen";
 
 const Stack = createNativeStackNavigator()
 
@@ -27,9 +28,10 @@ export default function ProfileStack() {
                     :
                     <>
                         <Stack.Screen name={"ProfileStack"} component={ProfileScreen} />
-                        <Stack.Screen name={"Settings"} component={SettingsScreen} />
                     </>
             }
+            <Stack.Screen name={"Settings"} component={SettingsScreen} />
+            <Stack.Screen name={"DataDownload"} component={DataDownloadScreen} />
 
         </Stack.Navigator>
     )

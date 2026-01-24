@@ -16,8 +16,7 @@ export default function ConfirmPurchaseButton({ cart, clearCartFunction = () => 
 
             for (let i = 0; i < cart.items.length; i++) {
                 const card = cart.items[i];
-                console.log(card.id, card.qty)
-
+                
                 await updateStockByDelta({ cardId: card.id, delta: card.qty, }).unwrap();
             }
 

@@ -18,6 +18,8 @@ const palette = {
     white: "#fff"
 }
 
+// lol@gmail.com
+
 export const colors = {
     ...palette,
     text: palette.color_3,

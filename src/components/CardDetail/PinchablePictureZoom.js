@@ -13,7 +13,7 @@ const heightDevice = Dimensions.get("window").height
 export default function PinchablePicture({ url }) {
 
     const tapGesture = Gesture.Tap().onStart(() => {
-        console.log('Tap!');
+        
     });
 
     return (

@@ -20,8 +20,7 @@ export default function RegisterForm() {
     const [triggerSignUp, result] = useSignupMutation()
 
     const onSubmitHandler = () => {
-        console.log({ email, password, confirmPassword })
-
+        
         if (!validateEmail(email)) {
             alert("Invalid email")
             return
@@ -43,7 +42,6 @@ export default function RegisterForm() {
 
     useEffect(
         () => {
-            //console.log({ result })
             if (result.status === "fulfilled") {
                 navigation.navigate('User', { screen: 'LoginScreen' })
             } else if (result.status === "rejected") {

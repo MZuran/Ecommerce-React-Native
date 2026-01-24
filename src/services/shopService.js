@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const testQuery = "cards.json?limitToFirst=10&orderBy=\"name\"";
+const allCardsQuery = "cards.json";
 
 export const shopApi = createApi({
     reducerPath: 'shopApi',
@@ -9,7 +10,7 @@ export const shopApi = createApi({
     endpoints: (builder) => ({
 
         getAllCards: builder.query({
-            query: () => testQuery,
+            query: () => allCardsQuery,
             transformResponse: (response) => Object.entries(response || {}).map(([id, data]) => ({ id, ...data, })),
         }),
 

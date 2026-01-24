@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import ProductsStack from "../ProductsStack";
 import ProfileStack from "../ProfileStack";
 import CartStack from "../CartStack";
+import SearchStack from "../SearchStack";
 
 import returnTabScreenOptions from "./TabScreenOptions";
 import { colors } from "../../globals/colors";
@@ -49,7 +50,7 @@ export default function TabNavigator() {
 
             <Tab.Screen
                 name={"Search"}
-                component={ProductsStack}
+                component={SearchStack}
                 options={returnTabScreenOptions("search")}
             />
 

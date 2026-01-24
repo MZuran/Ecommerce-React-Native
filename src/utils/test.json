@@ -1,0 +1,22 @@
+{
+  "archetype": "Alien",
+  "atk": null,
+  "attribute": null,
+  "def": null,
+  "desc": "During each of your Standby Phases, put 1 A-Counter on 1 face-up monster your opponent controls.",
+  "frameType": "spell",
+  "humanReadableCardType": "Continuous Spell",
+  "id": 34541863,
+  "image_url": "https://images.ygoprodeck.com/images/cards/34541863.jpg",
+  "image_url_cropped": "https://images.ygoprodeck.com/images/cards_cropped/34541863.jpg",
+  "image_url_small": "https://images.ygoprodeck.com/images/cards_small/34541863.jpg",
+  "level": null,
+  "linkmarkers": null,
+  "linkval": null,
+  "name": "\"A\" Cell Breeding Device",
+  "price": 24.45,
+  "race": "Continuous",
+  "stock": 40,
+  "type": "Spell Card",
+  "typeline": null
+}

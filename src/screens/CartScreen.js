@@ -29,7 +29,7 @@ export default function CartScreen() {
           />
 
           <View style={styles.purchaseInfoContainer}>
-            <Text style={styles.text} onPress={()=>{console.log(cart)}}>${cart.totalPrice}</Text>
+            <Text style={styles.text} onPress={()=>{}}>${cart.totalPrice}</Text>
             <ConfirmPurchaseButton cart={cart} clearCartFunction={handleClearCart}/>
             <CustomButton onPress={handleClearCart} >Clear Cart</CustomButton>
           </View>

@@ -21,6 +21,7 @@ export default function LoginForm() {
     const navigation = useNavigation()
     const dispatch = useDispatch()
     const db = useSQLiteContext()
+    //asd
 
     const onSubmit = () => {
         triggerLogin({ email, password })
