@@ -1,18 +1,21 @@
 import React from 'react';
 
-import { Text, StyleSheet, View, FlatList } from 'react-native';
+import { Text, StyleSheet, View, FlatList, Pressable } from 'react-native';
 import { useGetAllCardsQuery, useGetCardsByArchetypeQuery } from '../../services/shopService';
+import { colors } from '../../globals/colors';
 
 import { useEffect, useState } from 'react';
 
 import { useSQLiteContext } from 'expo-sqlite';
 import { searchCards } from '../../SQLite/cardSearchingFunctions';
 import CardButton from './CardButton';
+import { useNavigation } from '@react-navigation/native';
 
-export default function CardBrowserContainer({filters = {}}) {
+export default function CardBrowserContainer({ filters = {} }) {
 
   const [cardData, setCardData] = useState([])
   const db = useSQLiteContext()
+  const navigation = useNavigation()
 
   useEffect(
     () => {
@@ -46,12 +49,20 @@ export default function CardBrowserContainer({filters = {}}) {
   useEffect(
     () => {
       if (cardData && cardData.length > 0) {
-       }
+      }
     },
     [cardData]
   )
 
-  if (!cardData) return <Text>Loading cards...</Text>;
+  if (cardData.length == 0) return (
+    <View>
+      <Text style={styles.text} >No cards found!</Text>
+
+      <Pressable onPress={() => { navigation.navigate('User', { screen: 'Settings' }) }}>
+        <Text style={styles.subText}>Did you download the <Text style={styles.decoratedText} >Card Table</Text> yet?</Text>
+      </Pressable>
+    </View>
+  );
 
   return (
     <>
@@ -74,4 +85,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 10,
   },
+
+  text: {
+    color: colors.text,
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+
+  subText: {
+    color: colors.text,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingTop: 25,
+  },
+
+  decoratedText: {
+    textDecorationLine: "underline",
+    fontSize: 20,
+    color: colors.color_5
+  }
 });

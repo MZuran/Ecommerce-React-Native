@@ -14,7 +14,7 @@ export default function CardDetailScreen({ route, navigation }) {
     const { cardData } = route.params
     const { data, error, isLoading } = useGetCardByIdQuery(cardData.id)
 
-    const backPressHandler = () => { navigation.goBack() }
+    const backPressHandler = () => { navigation.navigate('Products', { screen: 'Home' }) }
 
     if (cardData.atk && cardData.atk == -1) { cardData.atk = "?" }
     if (cardData.def && cardData.def == -1) { cardData.def = "?" }
