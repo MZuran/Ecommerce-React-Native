@@ -30,6 +30,7 @@ Este proyecto es una aplicación de **e-commerce de cartas de Yu-Gi-Oh** desarro
 - Cada carta tiene una **pantalla de detalle** que descarga la información más reciente (precios y stock) desde la **Realtime Database**.
 - Esto asegura que el usuario solo descarga **una carta a la vez**, evitando descargar todo el catálogo innecesariamente.
 - El usuario puede presionar la **imagen de la carta** para ver la imagen original en detalle.
+- El usuario puede presionar sobre el **nombre del archetype** para ver a todas las cartas de la misma familia (Sólo aplicable para cartas que pertenezcan a una familia).
 
 ### Carrito de compras
 
