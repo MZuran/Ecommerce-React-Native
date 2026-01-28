@@ -10,7 +10,7 @@ export const shopApi = createApi({
     endpoints: (builder) => ({
 
         getAllCards: builder.query({
-            query: () => testQuery,
+            query: () => allCardsQuery,
             transformResponse: (response) => Object.entries(response || {}).map(([id, data]) => ({ id, ...data, })),
         }),
 

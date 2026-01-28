@@ -10,13 +10,12 @@ export default function HomeScreen({ route }) {
 
   const [filters, setFilters] = useState({})
 
-  useEffect(
-    () => {
-      if (route.params?.filters) {
-        setFilters(route.params.filters)
-      }
-    }, [route.params && route.params.filters]
-  )
+  useEffect(() => {
+    if (route.params?.filters) {
+      setFilters(route.params.filters)
+    }
+  }, [route.params?.filters])
+
 
   return (
     <View style={styles.screen} >

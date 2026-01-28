@@ -59,19 +59,33 @@ export const searchCards = async (db, filters = {}) => {
 
     // Build WHERE clauses
     for (const [key, value] of Object.entries(searchFilters)) {
-        if (!ALLOWED_FIELDS.has(key)) continue;
+        if (!ALLOWED_FIELDS.has(key) && key !== 'text') continue;
         if (value === undefined || value === null || value === '') continue;
 
+        // General text search
+        if (key === 'text') {
+            const orClauses = GENERAL_TEXT_FIELDS.map(
+                field => `LOWER(${field}) LIKE ?`
+            );
+
+            clauses.push(`(${orClauses.join(' OR ')})`);
+            GENERAL_TEXT_FIELDS.forEach(() =>
+                values.push(`%${value.toLowerCase()}%`)
+            );
+
+            continue;
+        }
+
+        // Normal text fields
         if (TEXT_FIELDS.has(key)) {
-            // Text fields use LIKE with wildcards
-            clauses.push(`${key} LIKE ?`);
-            values.push(`%${value}%`);
+            clauses.push(`LOWER(${key}) LIKE ?`);
+            values.push(`%${value.toLowerCase()}%`);
         } else {
-            // Numeric/exact fields use =
             clauses.push(`${key} = ?`);
             values.push(value);
         }
     }
+
 
     const whereClause = clauses.length ? `WHERE ${clauses.join(' AND ')}` : '';
     const orderClause = sortBy && ALLOWED_FIELDS.has(sortBy) ? `ORDER BY ${sortBy} ASC` : '';

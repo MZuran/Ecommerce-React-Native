@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, StyleSheet, View, ScrollView, Image } from 'react-native'
+import { Text, StyleSheet, View, ScrollView, Image, Pressable } from 'react-native'
 
 import CustomButtonIcon from '../components/IconButton'
 import AddToCart from '../components/CardDetail/AddToCartButton'
@@ -8,6 +8,7 @@ import CardDetailPicture from '../components/CardDetail/CardDetailPicture'
 import { useGetCardByIdQuery } from '../services/shopService'
 
 import { colors } from '../globals/colors'
+import { useNavigation } from '@react-navigation/native'
 
 export default function CardDetailScreen({ route, navigation }) {
 
@@ -15,6 +16,8 @@ export default function CardDetailScreen({ route, navigation }) {
     const { data, error, isLoading } = useGetCardByIdQuery(cardData.id)
 
     const backPressHandler = () => { navigation.navigate('Products', { screen: 'Home' }) }
+
+    //const navigation = useNavigation()
 
     if (cardData.atk && cardData.atk == -1) { cardData.atk = "?" }
     if (cardData.def && cardData.def == -1) { cardData.def = "?" }
@@ -25,6 +28,13 @@ export default function CardDetailScreen({ route, navigation }) {
 
     if (error) {
         return <Text onPress={() => { console.log(itemData) }} >Error loading card</Text>
+    }
+
+    function navigateToArchetype(archetype) {
+        navigation.navigate('Products', {
+            screen: 'Home',
+            params: { filters: { archetype } }
+        })
     }
 
     return (
@@ -48,7 +58,15 @@ export default function CardDetailScreen({ route, navigation }) {
                         {cardData.race && cardData.atk !== null && cardData.atk !== undefined && `${cardData.race} `}
                         {cardData.humanReadableCardType}
                     </Text>
-                    {cardData.archetype && <Text style={styles.textThin}>Archetype: <Text style={styles.textBold} >{cardData.archetype}</Text></Text>}
+
+                    {
+                        cardData.archetype
+                        &&
+                        <Pressable onPress={() => { navigateToArchetype(cardData.archetype) }}>
+                            <Text style={styles.textThin}>Archetype: <Text style={styles.textBold} >{cardData.archetype}</Text> (see all)</Text>
+                        </Pressable>
+                    }
+
                     {cardData.atk !== null && cardData.atk !== undefined && <Text style={styles.type}>{cardData.atk} ATK {cardData.def !== null && cardData.def !== undefined && `${cardData.def} DEF`}</Text>}
                     {cardData.linkmarkers && <Text style={styles.type}>Link Arrows: {cardData.linkmarkers.join(' ')}</Text>}
                 </View>

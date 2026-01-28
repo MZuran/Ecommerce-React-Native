@@ -46,14 +46,14 @@ export default function DataDownloadScreen() {
     )
 
     if (isLoading) {
-        return <View style={styles.screen} ><Text>Downloading Cards...</Text></View>
+        return <View style={styles.screen} ><Text>Downloading Cards... (May take up to 2 minutes)</Text></View>
     }
 
     if (error) {
         return <View style={styles.screen} ><Text>There's been an error trying to download the cards.</Text></View>
     }
 
-    return <View style={styles.screen} ><Text>Saving to local database...</Text></View>
+    return <View style={styles.screen} ><Text>Saving to local database... (May take up to 2 minutes)</Text></View>
 }
 
 const styles = StyleSheet.create({

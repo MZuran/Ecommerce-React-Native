@@ -17,34 +17,30 @@ export default function CardBrowserContainer({ filters = {} }) {
   const db = useSQLiteContext()
   const navigation = useNavigation()
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    let isCancelled = false;
 
-      const applyFilters = async () => {
-        try {
-
-          const result = await searchCards(db, filters)
-
-          setCardData(
-            result && typeof result === 'object'
-              ? Object.values(result)
-              : []
-          )
-
-          console.log("Setting new cardData")
-
-
-        } catch (error) {
-          console.error(error)
-          setCardData([])
+    const applyFilters = async () => {
+      try {
+        const result = await searchCards(db, filters);
+        if (!isCancelled) {
+          setCardData(result && typeof result === 'object' ? Object.values(result) : []);
+          console.log("Setting new cardData");
+        }
+      } catch (error) {
+        if (!isCancelled) {
+          console.error(error);
+          setCardData([]);
         }
       }
+    };
 
-      applyFilters()
+    applyFilters();
 
-    },
-    [filters]
-  )
+    return () => {
+      isCancelled = true; // cancel outdated calls
+    };
+  }, [JSON.stringify(filters)]);
 
   useEffect(
     () => {
@@ -70,7 +66,7 @@ export default function CardBrowserContainer({ filters = {} }) {
         cardData &&
         <FlatList
           data={cardData}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.id.toString()}
           numColumns={2}
           renderItem={({ item }) => <CardButton cardData={item} />}
           contentContainerStyle={styles.browser}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet, View, TextInput, Pressable, ScrollView } from 'react-native'
+import { Text, StyleSheet, View, TextInput, Pressable, ScrollView, FlatList } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import Checkbox from 'expo-checkbox'
 
@@ -7,31 +7,32 @@ import { colors } from '../globals/colors'
 import CustomButton from '../components/Button'
 
 import { useNavigation } from '@react-navigation/native'
+import { uniqueValuesDb } from '../utils/uniqueKeys'
 
 export default function CardSearchScreen() {
     const navigation = useNavigation()
 
     const [name, setName] = useState('')
     const [archetype, setArchetype] = useState('')
-    const [frameType, setFrameType] = useState('any')
+    const [frameType, setFrameType] = useState(null)
     const [atk, setAtk] = useState('')
     const [defense, setDefense] = useState('')
     const [level, setLevel] = useState('')
-    const [description, setDescription] = useState('')
+    const [desc, setDesc] = useState('')
     const [sortBy, setSortBy] = useState('name') // placeholder sorting options
 
-    
+
     const onSubmit = () => {
         // Create object with only filled-in filters
         const selectedFilters = {}
 
         if (name) selectedFilters.name = name
         if (archetype) selectedFilters.archetype = archetype
-        if (frameType != "Any") selectedFilters.frameType = frameType
+        if (frameType) selectedFilters.frameType = frameType
         if (atk) selectedFilters.atk = atk
         if (defense) selectedFilters.def = defense
         if (level) selectedFilters.level = level
-        if (description) selectedFilters.description = description
+        if (desc) selectedFilters.desc = desc
         selectedFilters.sortBy = sortBy
 
         console.log("Navigating with new filters", selectedFilters)
@@ -56,12 +57,12 @@ export default function CardSearchScreen() {
                     placeholder="Card Name"
                 />
 
-                <Text style={styles.label}>Description</Text>
+                <Text style={styles.label}>desc</Text>
                 <TextInput
                     style={styles.input}
-                    value={description}
-                    onChangeText={setDescription}
-                    placeholder="Card Description"
+                    value={desc}
+                    onChangeText={setDesc}
+                    placeholder="Card description"
                     multiline
                 />
 
@@ -82,15 +83,20 @@ export default function CardSearchScreen() {
                     onValueChange={(itemValue) => setFrameType(itemValue)}
                     style={styles.picker}
                 >
-                    <Picker.Item label="Any" value="Any" />
-                    <Picker.Item label="Effect Monster" value="Effect Monster" />
-                    <Picker.Item label="Spell Card" value="spell" />
-                    <Picker.Item label="Trap Card" value="trap" />
-                    <Picker.Item label="Link Monster" value="Link Monster" />
+                    <Picker.Item label="Any" value={null} />
+
+                    {uniqueValuesDb.frameType.map((item, index) => (
+                        <Picker.Item
+                            key={`${item}-${index}`}
+                            label={item}
+                            value={item}
+                        />
+                    ))}
+
                 </Picker>
             </View>
 
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <Text style={styles.sectionLabel} >Card Stats</Text>
 
                 <Text style={styles.label}>ATK</Text>
@@ -119,9 +125,9 @@ export default function CardSearchScreen() {
                     placeholder="Level"
                     keyboardType="numeric"
                 />
-            </View>
+            </View> */}
 
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <Text style={styles.sectionLabel} >Card Sorting</Text>
 
                 <Text style={styles.label}>Sort By</Text>
@@ -135,7 +141,7 @@ export default function CardSearchScreen() {
                     <Picker.Item label="DEF" value="def" />
                     <Picker.Item label="Level" value="level" />
                 </Picker>
-            </View>
+            </View> */}
 
             <CustomButton onPress={onSubmit}>Search Cards</CustomButton>
         </ScrollView>
